@@ -1,0 +1,24 @@
+const expand = {
+  Token: [],
+  CardToken: [card.account, card.customer, card.customer.default_source],
+  BankAccountToken: [
+    bank_account.account,
+    bank_account.customer,
+    bank_account.customer.default_source
+  ],
+  PIIToken: [],
+  AccountToken: []
+};
+
+const withExpand = typename => next => async (root, args, context, info) =>
+  next(root, { ...args, expand: expand[typename] }, context, info);
+
+export const expandResolvers = {
+  "Query.retrieveToken": [withExpand("Token")],
+  "Mutation.createCardToken": [withExpand("CardToken")],
+  "Mutation.createCustomerCardToken": [withExpand("CardToken")],
+  "Mutation.createBankAccountToken": [withExpand("BankAccountToken")],
+  "Mutation.createCustomerBankAccountToken": [withExpand("BankAccountToken")],
+  "Mutation.createPIIToken": [withExpand("PIIToken")],
+  "Mutation.createAccountToken": [withExpand("AccountToken")]
+};

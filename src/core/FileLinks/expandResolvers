@@ -1,0 +1,14 @@
+const expand = {
+  FileLink: [file],
+  FileLinkList: [data.file]
+};
+
+const withExpand = typename => next => async (root, args, context, info) =>
+  next(root, { ...args, expand: expand[typename] }, context, info);
+
+export const expandResolvers = {
+  "Query.retrieveFileLink": [withExpand("FileLink")],
+  "Query.listFileLinks": [withExpand("FileLinkList")],
+  "Mutation.createFileLink": [withExpand("FileLink")],
+  "Mutation.updateFileLink": [withExpand("FileLink")]
+};

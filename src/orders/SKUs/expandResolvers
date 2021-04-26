@@ -1,0 +1,16 @@
+const expand = {
+  SKU: [product],
+  SKUList: [data.product],
+  SKUDeletePayload: []
+};
+
+const withExpand = typename => next => async (root, args, context, info) =>
+  next(root, { ...args, expand: expand[typename] }, context, info);
+
+export const expandResolvers = {
+  "Query.retrieveSKU": [withExpand("SKU")],
+  "Query.listSKUs": [withExpand("SKUList")],
+  "Mutation.createSKU": [withExpand("SKU")],
+  "Mutation.updateSKU": [withExpand("SKU")],
+  "Mutation.deleteSKU": [withExpand("SKUDeletePayload")]
+};

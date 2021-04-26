@@ -1,0 +1,15 @@
+const expand = {
+  Card: [account, customer, customer.default_source],
+  CardList: [data.account, data.customer, data.customer.default_source]
+};
+
+const withExpand = typename => next => async (root, args, context, info) =>
+  next(root, { ...args, expand: expand[typename] }, context, info);
+
+export const expandResolvers = {
+  "Query.retrieveCard": [withExpand("Card")],
+  "Query.listCards": [withExpand("CardList")],
+  "Mutation.createCard": [withExpand("Card")],
+  "Mutation.updateCard": [withExpand("Card")],
+  "Mutation.deleteCard": [withExpand("Card")]
+};
