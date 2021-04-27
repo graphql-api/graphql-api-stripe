@@ -25,7 +25,7 @@ export const resolvers: Resolvers = {
     listCharges: (parent, args, context, info) =>
       context.stripe.charges.list(...exp(args.where, info, ['data'])),
     retrieveCharge: (parent, args, context, info) =>
-      context.stripe.charges.retrieve(...exp(args.where.id, info))
+      context.stripe.charges.retrieve(...exp(args?.where?.id, info))
   },
   Mutation: {
     captureCharge: (parent, args, context, info) =>
