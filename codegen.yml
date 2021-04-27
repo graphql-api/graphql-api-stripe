@@ -1,0 +1,68 @@
+schema:
+  # billing
+  - ./src/billing/Coupons/typeDefs.graphql
+  - ./src/billing/Discounts/typeDefs.graphql
+  - ./src/billing/InvoiceItems/typeDefs.graphql
+  - ./src/billing/Invoices/typeDefs.graphql
+  - ./src/billing/Plans/typeDefs.graphql
+  - ./src/billing/Subscriptions/typeDefs.graphql
+  - ./src/billing/SubscriptionItems/typeDefs.graphql
+  - ./src/billing/UsageRecords/typeDefs.graphql
+  # checkout
+  - ./src/checkout/Sessions/typeDefs.graphql
+  # connect
+  - ./src/connect/Accounts/typeDefs.graphql
+  - ./src/connect/ApplicationFeeRefunds/typeDefs.graphql
+  - ./src/connect/ApplicationFees/typeDefs.graphql
+  - ./src/connect/CountrySpecs/typeDefs.graphql
+  - ./src/connect/ExternalAccounts/typeDefs.graphql
+  - ./src/connect/TransferReversals/typeDefs.graphql
+  - ./src/connect/Transfers/typeDefs.graphql
+  # core
+  - ./src/core/Balance/typeDefs.graphql
+  - ./src/core/Charges/typeDefs.graphql
+  - ./src/core/Customers/typeDefs.graphql
+  - ./src/core/Disputes/typeDefs.graphql
+  - ./src/core/Events/typeDefs.graphql
+  - ./src/core/Files/typeDefs.graphql
+  - ./src/core/FileLinks/typeDefs.graphql
+  - ./src/core/PaymentIntents/typeDefs.graphql
+  - ./src/core/Payouts/typeDefs.graphql
+  - ./src/core/Products/typeDefs.graphql
+  - ./src/core/Refunds/typeDefs.graphql
+  - ./src/core/Tokens/typeDefs.graphql
+  # fraud
+  - ./src/fraud/Reviews/typeDefs.graphql
+  - ./src/fraud/ValueLists/typeDefs.graphql
+  - ./src/fraud/ValueListItems/typeDefs.graphql
+  # orders
+  - ./src/orders/Orders/typeDefs.graphql
+  - ./src/orders/OrderItems/typeDefs.graphql
+  - ./src/orders/SKUs/typeDefs.graphql
+  # payment
+  - ./src/payment/BankAccounts/typeDefs.graphql
+  - ./src/payment/Cards/typeDefs.graphql
+  - ./src/payment/Sources/typeDefs.graphql
+watch: false
+overwrite: true
+config:
+  immutableTypes: false
+  enumsAsTypes: true
+  avoidOptionals: true
+  maybeValue: T | null | undefined
+  scalars:
+    DateTime: 'string'
+    JSON: '{ [x: string]: string | number }' #{ [key: string]: any }
+  # enumValues:
+  #   ObjectType: 'string'
+generates:
+  ./types/index.d.ts:
+    plugins:
+      - typescript
+      - typescript-resolvers
+    config:
+      maybeValue: T | undefined
+      contextType: ./Context#StripeContext
+  ./generated/schema.graphql:
+    plugins:
+      - schema-ast
