@@ -1,4 +1,8 @@
 {
   "name": "@graphql-api/stripe",
-  "version": "0.0.1"
+  "version": "0.0.1",
+  "peerDependencies": {
+    "graphql": "15.5.0",
+    "stripe-node": "6.0.0"
+  }
 }
