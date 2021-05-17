@@ -2,6 +2,7 @@
   "extends": "../../../tsconfig.base.json",
   "compilerOptions": {
     "allowJs": true,
+    "lib": ["ES2019"],
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true
   },
