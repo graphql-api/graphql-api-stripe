@@ -6,10 +6,10 @@ export const resolvers = composeResolvers<Resolvers>(
   {
     Query: {
       listBalanceHistory: (_, { where, expand }, context) =>
-        context.stripe.balance.listTransactions({ ...where, expand }),
-      retrieveBalance: (_, __, context) => context.stripe.balance.retrieve(),
+        context.dataSources?.stripe?.balance.listTransactions({ ...where, expand }),
+      retrieveBalance: (_, __, context) => context.dataSources?.stripe?.balance.retrieve(),
       retrieveBalanceTransaction: (_, { where, expand }, context) =>
-        context.stripe.balance.retrieveTransaction({ ...where, expand })
+        context.dataSources?.stripe?.balance.retrieveTransaction({ ...where, expand })
     }
   },
   expandResolvers

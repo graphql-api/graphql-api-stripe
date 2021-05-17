@@ -30,20 +30,20 @@ export const resolvers: Resolvers = {
   Account,
   Query: {
     listConnectedAccounts: (_, args, context, info) =>
-      context.stripe.accounts.list(...exp(args.where, info, ['data'])),
+      context.dataSources?.stripe?.accounts.list(...exp(args.where, info, ['data'])),
     retrieveAccount: (_, args, context, info) =>
-      context.stripe.accounts.retrieve(...exp(args.where.id, info))
+      context.dataSources?.stripe?.accounts.retrieve(...exp(args.where.id, info))
   },
   Mutation: {
     createAccount: (_, args, context, info) =>
-      context.stripe.accounts.create(...exp(args.data, info)),
+      context.dataSources?.stripe?.accounts.create(...exp(args.data, info)),
     updateAccount: (_, args, context, info) =>
-      context.stripe.accounts.update(args.where.id, ...exp(args.where, info)),
+      context.dataSources?.stripe?.accounts.update(args.where.id, ...exp(args.where, info)),
     rejectAccount: (_, args, context, info) =>
-      context.stripe.accounts.reject(args.where.id, ...exp(args.data, info)),
+      context.dataSources?.stripe?.accounts.reject(args.where.id, ...exp(args.data, info)),
     deleteAccount: (_, args, context) =>
-      context.stripe.accounts.del(args.where.id),
+      context.dataSources?.stripe?.accounts.del(args.where.id),
     createLoginLink: (_, args, context, info) =>
-      context.stripe.accounts.createLoginLink(args.whereAccount.id, args.data)
+      context.dataSources?.stripe?.accounts.createLoginLink(args.whereAccount.id, args.data)
   }
 }

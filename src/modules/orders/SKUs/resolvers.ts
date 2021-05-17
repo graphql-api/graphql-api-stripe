@@ -8,16 +8,16 @@ const exp = withExpanded(expand)
 export const resolvers: Resolvers = {
   Query: {
     listSKUs: (_, args, context, info) =>
-      context.stripe.skus.list(...exp(args.where, info)),
+      context.dataSources?.stripe?.skus.list(...exp(args.where, info)),
     retrieveSKU: (_, args, context, info) =>
-      context.stripe.skus.retrieve(args.where.id, ...exp({}, info))
+      context.dataSources?.stripe?.skus.retrieve(args.where.id, ...exp({}, info))
   },
   Mutation: {
     createSKU: (_, args, context, info) =>
-      context.stripe.skus.create(...exp(args.data, info)),
+      context.dataSources?.stripe?.skus.create(...exp(args.data, info)),
     deleteSKU: (_, args, context, info) =>
-      context.stripe.skus.del(args.where.id),
+      context.dataSources?.stripe?.skus.del(args.where.id),
     updateSKU: (_, args, context, info) =>
-      context.stripe.skus.update(args.where.id, ...exp(args.data, info))
+      context.dataSources?.stripe?.skus.update(args.where.id, ...exp(args.data, info))
   }
 }

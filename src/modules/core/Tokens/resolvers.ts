@@ -22,13 +22,13 @@ export const resolvers: Resolvers = {
   Token,
   Query: {
     retrieveToken: (_, args, context) =>
-      context.stripe.tokens.retrieve(args.where.id)
+      context.dataSources?.stripe?.tokens.retrieve(args.where.id)
   },
   Mutation: {
     createCardToken: (_, args, context) =>
-      context.stripe.tokens.create(args.data),
+      context.dataSources?.stripe?.tokens.create(args.data),
     createAccountToken: (_, args, context) =>
-      context.stripe.tokens.create(args.data),
+      context.dataSources?.stripe?.tokens.create(args.data),
     createBankAccountToken: (_, args, context) =>
       context.tokens.create(args.data),
     createPIIToken: (_, args, context) => context.tokens.create(args.data),
@@ -37,11 +37,11 @@ export const resolvers: Resolvers = {
      *
      */
     createCustomerBankAccountToken: (_, args, context) =>
-      context.stripe.tokens.create(args.data, {
+      context.dataSources?.stripe?.tokens.create(args.data, {
         stripe_account: args.whereAccount.id
       }),
     createCustomerCardToken: (_, args, context) =>
-      context.stripe.tokens.create(args.data, {
+      context.dataSources?.stripe?.tokens.create(args.data, {
         stripe_account: args.whereAccount.id
       })
   }

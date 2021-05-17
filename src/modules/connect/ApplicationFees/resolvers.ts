@@ -27,8 +27,8 @@ export const resolvers: Resolvers = {
   },
   Query: {
     listApplicationFees: (_, args, context, info) =>
-      context.stripe.applicationFees.list(...exp(args.where, info, ['data'])),
+      context.dataSources?.stripe?.applicationFees.list(...exp(args.where, info, ['data'])),
     retrieveApplicationFee: (_, args, context, info) =>
-      context.stripe.applicationFees.retrieve(...exp(args.where.id, info))
+      context.dataSources?.stripe?.applicationFees.retrieve(...exp(args.where.id, info))
   }
 }

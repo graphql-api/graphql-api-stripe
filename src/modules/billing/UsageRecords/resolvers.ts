@@ -6,11 +6,11 @@ export const resolvers: Resolvers = {
       _,
       { where: { subscription_item, ...where } },
       context
-    ) => context.stripe.usageRecordSummaries.list(subscription_item, where)
+    ) => context.dataSources?.stripe?.usageRecordSummaries.list(subscription_item, where)
   },
   Mutation: {
     createUsageRecord: (_, args, context) =>
-      context.stripe.usageRecords.create(
+      context.dataSources?.stripe?.usageRecords.create(
         args.where.subscription_item,
         args.data
       )

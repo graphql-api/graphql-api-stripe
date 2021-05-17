@@ -18,14 +18,14 @@ const exp = withExpanded(['charge', ...expDisputeEvidence])
 export const resolvers: Resolvers = {
   Query: {
     retrieveDispute: (_, args, context, info) =>
-      context.stripe.disputes.retrieve(...exp(args.where.id, info)),
+      context.dataSources?.stripe?.disputes.retrieve(...exp(args.where.id, info)),
     listDisputes: (_, args, context, info) =>
-      context.stripe.disputes.list(...exp(args.where, info, ['data']))
+      context.dataSources?.stripe?.disputes.list(...exp(args.where, info, ['data']))
   },
   Mutation: {
     closeDispute: (_, args, context, info) =>
-      context.stripe.disputes.close(...exp(args.where)),
+      context.dataSources?.stripe?.disputes.close(...exp(args.where)),
      updateDispute:(_, args, context, info) =>
-      context.stripe.disputes.update(args.where, ...exp(args.data, info))
+      context.dataSources?.stripe?.disputes.update(args.where, ...exp(args.data, info))
   }
 }

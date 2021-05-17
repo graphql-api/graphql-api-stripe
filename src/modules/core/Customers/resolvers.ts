@@ -21,9 +21,9 @@ interface CustomersResolvers {
 const stripeResolvers: CustomersResolvers = {
   Query: {
     retrieveCustomer: (_, { where, expand }, context, info) =>
-      context.stripe.customers.retrieve({ ...where, expand }),
+      context.dataSources?.stripe?.customers.retrieve({ ...where, expand }),
     listCustomers: (_, { where, expand }, context, info) => {
-      return context.stripe.customers.list({
+      return context.dataSources?.stripe?.customers.list({
         ...where,
         expand
       })
@@ -31,11 +31,11 @@ const stripeResolvers: CustomersResolvers = {
   },
   Mutation: {
     createCustomer: (_, { data, expand }, context, info) =>
-      context.stripe.customers.create({ ...data, expand }),
+      context.dataSources?.stripe?.customers.create({ ...data, expand }),
     updateCustomer: (_, { where: { id }, data, expand }, context, info) =>
-      context.stripe.customers.update(id, { ...data, expand }),
+      context.dataSources?.stripe?.customers.update(id, { ...data, expand }),
     deleteCustomer: (_, args, context) =>
-      context.stripe.customers.del(args.where.id)
+      context.dataSources?.stripe?.customers.del(args.where.id)
   }
 }
 

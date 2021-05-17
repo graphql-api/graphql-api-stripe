@@ -23,16 +23,16 @@ const exp = withExpanded(expand)
 export const resolvers: Resolvers = {
   Query: {
     listCharges: (parent, args, context, info) =>
-      context.stripe.charges.list(...exp(args.where, info, ['data'])),
+      context.dataSources?.stripe?.charges.list(...exp(args.where, info, ['data'])),
     retrieveCharge: (parent, args, context, info) =>
-      context.stripe.charges.retrieve(...exp(args?.where?.id, info))
+      context.dataSources?.stripe?.charges.retrieve(...exp(args?.where?.id, info))
   },
   Mutation: {
     captureCharge: (parent, args, context, info) =>
-      context.stripe.charges.capture(args.where.id, ...exp(args.data)),
+      context.dataSources?.stripe?.charges.capture(args.where.id, ...exp(args.data)),
     createCharge: (parent, args, context, info) =>
-      context.stripe.charges.create(...exp(args.data, info)),
+      context.dataSources?.stripe?.charges.create(...exp(args.data, info)),
     updateCharge: (parent, args, context, info) =>
-      context.stripe.charges.update(args.where.id, ...exp(args.data, info))
+      context.dataSources?.stripe?.charges.update(args.where.id, ...exp(args.data, info))
   }
 }

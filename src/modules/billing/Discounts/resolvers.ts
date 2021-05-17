@@ -1,13 +1,18 @@
-import { Resolvers } from './types'
+import { ResolverMap } from '../../../types'
+
 import { withExpanded } from '../../directives'
 
 export const expand = ['customer']
 
-export const resolvers: Resolvers = {
+export const resolvers: ResolverMap = {
   Mutation: {
     deleteCustomerDiscount: (_, args, context) =>
-      context.stripe.customers.deleteDiscount(args.whereCustomer.id),
+      context.dataSources?.stripe?.customers.deleteDiscount(
+        args.whereCustomer.id
+      ),
     deleteSubscriptionDiscount: (_, args, context) =>
-      context.stripe.subscriptions.deleteDiscount(args.whereSubscription.id)
+      context.dataSources?.stripe?.subscriptions.deleteDiscount(
+        args.whereSubscription.id
+      )
   }
 }

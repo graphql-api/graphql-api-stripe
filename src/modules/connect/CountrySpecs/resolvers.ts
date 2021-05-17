@@ -3,8 +3,8 @@ import { Resolvers } from './types'
 export const resolvers: Resolvers = {
   Query: {
     listCountrySpec: (_, args, context) =>
-      context.stripe.countrySpecs.list(args.where),
+      context.dataSources?.stripe?.countrySpecs.list(args.where),
     retrieveCountrySpec: (_, args, context) =>
-      context.stripe.countrySpecs.retrieve(args.where.country)
+      context.dataSources?.stripe?.countrySpecs.retrieve(args.where.country)
   }
 }
