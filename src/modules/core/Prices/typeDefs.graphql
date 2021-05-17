@@ -88,3 +88,20 @@ enum Interval {
 enum BillingScheme {
   per_unit
 }
+
+type PriceList implements Object {
+  object: ObjectType
+  has_more: Boolean
+  url: String
+  data: [Price]
+}
+
+type Query {
+  retrievePrice: Price
+  listPrices: PriceList
+}
+
+type Mutation {
+  createPrice: Price
+  updatePrice: Price
+}

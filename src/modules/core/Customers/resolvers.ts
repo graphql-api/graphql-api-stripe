@@ -1,24 +1,6 @@
-import {
-  Resolvers,
-  Customer,
-  QueryListCustomersArgs,
-  MutationCreateCustomerArgs,
-  MutationUpdateCustomerArgs,
-  ObjectType
-} from '../../../types'
-import { getDirectives } from 'graphql-toolkit'
-import { composeResolvers } from 'graphql-toolkit'
-import { expandResolvers } from './expandResolvers'
+import { ResolverMap } from '../../../types'
 
-interface CustomersResolvers {
-  Query: Pick<Resolvers['Query'], 'listCustomers' | 'retrieveCustomer'>
-  Mutation: Pick<
-    Resolvers['Mutation'],
-    'createCustomer' | 'updateCustomer' | 'deleteCustomer'
-  >
-}
-
-const stripeResolvers: CustomersResolvers = {
+export const resolvers: ResolverMap = {
   Query: {
     retrieveCustomer: (_, { where, expand }, context, info) =>
       context.dataSources?.stripe?.customers.retrieve({ ...where, expand }),
@@ -39,4 +21,4 @@ const stripeResolvers: CustomersResolvers = {
   }
 }
 
-export const resolvers = composeResolvers(stripeResolvers, expandResolvers)
+// export const resolvers = composeResolvers(stripeResolvers, expandResolvers)

@@ -1,4 +1,4 @@
-import { Resolvers } from '@types'
+import { ResolverMap } from '../../../types'
 
 export const ExternalAccount = {
   __resolveType: ({ object }, context, info) => {
@@ -13,27 +13,39 @@ export const ExternalAccount = {
   }
 }
 
-export const resolvers: Resolvers = {
+export const resolvers: ResolverMap = {
   ExternalAccount,
   Query: {
-    listExternalCards: (_, args, context, info) =>
-      context.dataSources?.stripe?.accounts.retrieveExternalAccount(args.whereAccount.id, {
-        object: 'card'
-      }),
-    listExternalBankAccounts: (_, args, context, info) =>
-      context.dataSources?.stripe?.accounts.listExternalAccounts(args.where.id, {
-        object: 'bank_account'
-      })
+    // listExternalCards: (_, args, context, info) =>
+    //   context.dataSources?.stripe?.accounts.retrieveExternalAccount(
+    //     args.whereAccount.id,
+        
+    //     {
+    //       object: 'card'
+    //     }
+    //   ),
+    // listExternalBankAccounts: (_, args, context, info) =>
+    //   context.dataSources?.stripe?.accounts.listExternalAccounts(
+    //     args.where.id,
+    //     {
+    //       object: 'bank_account'
+    //     }
+    //   )
   },
   Mutation: {
-    createExternalBankAccount: (_, args, context, info) =>
-      context.dataSources?.stripe?.accounts.createExternalAccount(args.whereAccount.id),
-    createExternalCard: (_, args, context, info) => context.dataSources?.stripe?.accounts,
+    // createExternalBankAccount: (_, args, context, info) =>
+    //   context.dataSources?.stripe?.accounts.createExternalAccount(
+    //     args.whereAccount.id
+    //   ),
+    createExternalCard: (_, args, context, info) =>
+      context.dataSources?.stripe?.accounts,
     updateExternalBankAccount: (_, args, context, info) =>
       context.dataSources?.stripe?.accounts,
-    updateExternalCard: (_, args, context, info) => context.dataSources?.stripe?.accounts,
+    updateExternalCard: (_, args, context, info) =>
+      context.dataSources?.stripe?.accounts,
     deleteExternalBankAccount: (_, args, context, info) =>
       context.dataSources?.stripe?.accounts,
-    deleteExternalCard: (_, args, context, info) => context.dataSources?.stripe?.accounts
+    deleteExternalCard: (_, args, context, info) =>
+      context.dataSources?.stripe?.accounts
   }
 }

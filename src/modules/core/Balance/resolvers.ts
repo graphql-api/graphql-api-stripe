@@ -1,16 +1,18 @@
-import { Resolvers } from './types'
-import { composeResolvers } from 'graphql-toolkit'
-import { expandResolvers } from './expandResolvers'
+import { ResolverMap } from '../../../types'
 
-export const resolvers = composeResolvers<Resolvers>(
-  {
-    Query: {
-      listBalanceHistory: (_, { where, expand }, context) =>
-        context.dataSources?.stripe?.balance.listTransactions({ ...where, expand }),
-      retrieveBalance: (_, __, context) => context.dataSources?.stripe?.balance.retrieve(),
-      retrieveBalanceTransaction: (_, { where, expand }, context) =>
-        context.dataSources?.stripe?.balance.retrieveTransaction({ ...where, expand })
-    }
-  },
-  expandResolvers
-)
+export const resolvers: ResolverMap = {
+  Query: {
+    listBalanceHistory: (_, { where, expand }, context) =>
+      context.dataSources?.stripe?.balanceTransactions.list({
+        ...where,
+        expand
+      }),
+    retrieveBalance: (_, __, context) =>
+      context.dataSources?.stripe?.balance.retrieve(),
+    retrieveBalanceTransaction: (_, { where, expand }, context) =>
+      context.dataSources?.stripe?.balanceTransactions.retrieve({
+        ...where,
+        expand
+      })
+  }
+}

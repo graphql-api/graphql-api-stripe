@@ -1,4 +1,4 @@
-import { Resolvers } from './types'
+import { ResolverMap } from '../../../types'
 
 export const Token = {
   __resolveType: ({ object }) => {
@@ -18,7 +18,7 @@ export const Token = {
   }
 }
 
-export const resolvers: Resolvers = {
+export const resolvers: ResolverMap = {
   Token,
   Query: {
     retrieveToken: (_, args, context) =>
@@ -30,8 +30,9 @@ export const resolvers: Resolvers = {
     createAccountToken: (_, args, context) =>
       context.dataSources?.stripe?.tokens.create(args.data),
     createBankAccountToken: (_, args, context) =>
-      context.tokens.create(args.data),
-    createPIIToken: (_, args, context) => context.tokens.create(args.data),
+      context.dataSources.stripe.tokens.create(args.data),
+    createPIIToken: (_, args, context) =>
+      context.dataSources.stripe.tokens.create(args.data),
     /*
      * https://stripe.com/docs/connect/shared-customers
      *

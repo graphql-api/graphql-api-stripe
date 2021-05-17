@@ -1,4 +1,4 @@
-import { Resolvers } from './types'
+import { ResolverMap } from '../../../types'
 import { withExpanded } from '../../directives'
 
 export const expand = [
@@ -26,24 +26,39 @@ export const Account = {
   }
 }
 
-export const resolvers: Resolvers = {
+export const resolvers: ResolverMap = {
   Account,
   Query: {
     listConnectedAccounts: (_, args, context, info) =>
-      context.dataSources?.stripe?.accounts.list(...exp(args.where, info, ['data'])),
+      context.dataSources?.stripe?.accounts.list(
+        ...exp(args.where, info, ['data'])
+      ),
     retrieveAccount: (_, args, context, info) =>
-      context.dataSources?.stripe?.accounts.retrieve(...exp(args.where.id, info))
+      context.dataSources?.stripe?.accounts.retrieve(
+        ...exp(args.where.id, info)
+      )
   },
   Mutation: {
     createAccount: (_, args, context, info) =>
       context.dataSources?.stripe?.accounts.create(...exp(args.data, info)),
     updateAccount: (_, args, context, info) =>
-      context.dataSources?.stripe?.accounts.update(args.where.id, ...exp(args.where, info)),
-    rejectAccount: (_, args, context, info) =>
-      context.dataSources?.stripe?.accounts.reject(args.where.id, ...exp(args.data, info)),
+      context.dataSources?.stripe?.accounts.update(
+        args.where.id,
+        ...exp(args.where, info)
+      ),
+    async rejectAccount(_, args, context, info) {
+      const additionalArgs: [any] = exp(args.data, info)
+      return context.dataSources?.stripe?.accounts.reject(
+        args.where.id,
+        ...additionalArgs
+      )
+    },
     deleteAccount: (_, args, context) =>
       context.dataSources?.stripe?.accounts.del(args.where.id),
     createLoginLink: (_, args, context, info) =>
-      context.dataSources?.stripe?.accounts.createLoginLink(args.whereAccount.id, args.data)
+      context.dataSources?.stripe?.accounts.createLoginLink(
+        args.whereAccount.id,
+        args.data
+      )
   }
 }

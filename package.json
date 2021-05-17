@@ -4,5 +4,8 @@
   "peerDependencies": {
     "graphql": "15.5.0",
     "stripe-node": "6.0.0"
+  },
+  "devDependencies": {
+    "graphql-let": "^0.18.0-beta.2"
   }
 }

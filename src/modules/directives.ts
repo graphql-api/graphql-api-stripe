@@ -11,8 +11,6 @@ import {
 } from 'graphql'
 import { SchemaDirectiveVisitor } from 'graphql-tools'
 import * as ConstraintDirective from 'graphql-constraint-directive'
-import { HeaderOptions } from 'stripe'
-
 export const schemaDirectives = { constraint: ConstraintDirective }
 
 /*
@@ -39,20 +37,21 @@ const checkExpanded = (
   if (!!list) {
     const field = list.pop()
     const fieldNode = selections.find(
-      selectionField =>
+      (selectionField) =>
         selectionField.kind === Kind.FIELD &&
         selectionField.name.value === field
     )
     if (!!fieldNode) {
-      expandField = fieldNode.selectionSet.selections.filter(
+      expandField = fieldNode.directives.filter(
+        // selectionSet.selections.filter(
         ({ name: { value } }) => expand.includes(value)
       )
       preField = `${field}.`
     }
   } else {
-    expandField = selections.filter(({ name: { value } }) =>
-      expand.includes(value)
-    )
+    // expandField = selections.filter(({ name: { value } }) =>
+    //   expand.includes(value)
+    // )
   }
   if (Array.isArray(expandField) && expandField.length > 0) {
     return {
@@ -86,7 +85,7 @@ export const withExpanded = <T extends {}>(expand: Array<keyof T>) => <
   args: T,
   info: GraphQLResolveInfo,
   list?: string[] | undefined
-): T & HeaderOptions => {
+): T => {
   const expanded = checkExpanded(expand, info, list)
   return { ...args, ...expanded } as any
 }

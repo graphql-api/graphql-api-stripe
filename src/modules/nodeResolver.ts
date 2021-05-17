@@ -1,8 +1,7 @@
 import { GraphQLResolveInfo } from 'graphql'
-import { StripeContext } from '../types'
 
 const NodeResolver = {
-  __resolveType: ({ id }, context: StripeContext, info: GraphQLResolveInfo) => {
+  __resolveType: ({ id }, info: GraphQLResolveInfo) => {
     if (id.length === 2 && CountrySpecs.includes(id)) return 'CountrySpec'
     const prefix = id.split('_')[0]
     switch (prefix) {
