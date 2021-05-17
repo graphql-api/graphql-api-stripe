@@ -1,0 +1,4 @@
+enum BillingSubscriptionBilling {
+  chargeAutomatically
+  sendInvoice
+}

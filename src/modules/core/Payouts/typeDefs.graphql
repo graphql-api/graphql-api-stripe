@@ -1,0 +1,353 @@
+# import Currency from '../../Currency.graphql'
+# import Node from '../../Node.graphql'
+# import Object, ObjectType from '../../Object.graphql'
+# import SourceType from '../../payment/Sources/typeDefs.graphql'
+# import BalanceTransaction from '../Balance/typeDefs.graphql'
+# import  Card from '../../payment/Cards/typeDefs.graphql'
+# import BankAccount from '../../payment/BankAccounts/typeDefs.graphql'
+# import DateTime, JSON from '../../Scalars.graphql'
+# import constraint, expandable from '../../Directives.graphql'
+# import CreatedInput from '../../Created.graphql'
+
+"""
+A Payout object is created when you receive funds from Stripe, or when you initiate a payout to either a bank account or debit card of a connected Stripe account. You can retrieve individual payouts, as well as list all payouts. Payouts are made on varying schedules, depending on your country and industry.
+https://stripe.com/docs/api/payouts/object
+"""
+type Payout implements Node & Object {
+  """
+  Unique identifier for the object.
+  """
+  id: ID!
+  """
+  String representing the object’s type. Objects of the same type share the same value.
+  """
+  object: ObjectType
+  """
+  Amount (in cents) to be transferred to your bank account or debit card.
+  """
+  amount: Int
+  """
+  Date the payout is expected to arrive in the bank. This factors in delays like weekends or bank holidays.
+  """
+  arrival_date: DateTime
+  """
+  Returns true if the payout was created by an automated payout schedule, and false if it was requested manually.
+  """
+  automatic: Boolean
+  """
+  ID of the balance transaction that describes the impact of this payout on your account balance.
+  """
+  balance_transaction: BalanceTransaction @expandable
+  """
+  Time at which the object was created. Measured in seconds since the Unix epoch.
+  """
+  created: DateTime
+  """
+  Three-letter ISO currency code, in lowercase. Must be a supported currency.
+  """
+  currency: Currency
+  """
+  An arbitrary string attached to the object. Often useful for displaying to users.
+  """
+  description: String
+  """
+  ID of the bank account or card the payout was sent to.
+  """
+  destination: PayoutDestination @expandable
+  """
+  If the payout failed or was canceled, this will be the ID of the balance transaction that reversed the initial balance transaction, and puts the funds from the failed payout back in your balance.
+  """
+  failure_balance_transaction: BalanceTransaction @expandable
+  """
+  Error code explaining reason for payout failure if available. See Types of payout failures for a list of failure codes.
+  """
+  failure_code: PayoutFailureCode
+  """
+  Message to user further explaining reason for payout failure if available.
+  """
+  failure_message: String
+  """
+  Has the value true if the object exists in live mode or the value false if the object exists in test mode.
+  """
+  livemode: Boolean
+  """
+  Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+  """
+  metadata: JSON
+  """
+  The method used to send this payout, which can be standard or instant. instant is only supported for payouts to debit cards. (See Instant payouts for marketplaces for more information.)
+  """
+  method: PayoutMethod
+  """
+  The source balance this payout came from. One of card, financing, bank_account, or alipay_account.
+  https://stripe.com/docs/api/payouts/object?lang=node#payout_object-source_type
+  """
+  source_type: PayoutSourceType
+  """
+  Extra information about a payout to be displayed on the user’s bank statement.
+  https://stripe.com/docs/api/payouts/object?lang=node#payout_object-statement_descriptor
+  """
+  statement_descriptor: String
+  """
+  Current status of the payout (paid, pending, in_transit, canceled or failed). A payout will be pending until it is submitted to the bank, at which point it becomes in_transit. It will then change to paid if the transaction goes through. If it does not go through successfully, its status will change to failed or canceled.
+  https://stripe.com/docs/api/payouts/object?lang=node#payout_object-status
+  """
+  status: PayoutStatus
+  """
+  Can be bank_account or card.
+  https://stripe.com/docs/api/payouts/object?lang=node#payout_object-type
+  """
+  type: PayoutType
+}
+
+union PayoutDestination = Card | BankAccount
+
+enum PayoutType {
+  bank_account
+  card
+}
+
+"""
+Current status of the payout (paid, pending, in_transit, canceled or failed). A payout will be pending until it is submitted to the bank, at which point it becomes in_transit. It will then change to paid if the transaction goes through. If it does not go through successfully, its status will change to failed or canceled.
+https://stripe.com/docs/api/payouts/object?lang=node#payout_object-status
+"""
+enum PayoutStatus {
+  paid
+  pending
+  in_transit
+  canceled
+  failed
+}
+
+"""
+The source balance this payout came from. One of card, financing, bank_account, or alipay_account.
+https://stripe.com/docs/api/payouts/object?lang=node#payout_object-source_type
+"""
+enum PayoutSourceType {
+  card
+  #financing
+  bank_account
+  #alipay_account
+}
+
+"""
+The method used to send this payout, which can be standard or instant. instant is only supported for payouts to debit cards. (See Instant payouts for marketplaces for more information.)
+https://stripe.com/docs/api/payouts/object?lang=node#payout_object-method
+"""
+enum PayoutMethod {
+  standard
+  instant
+}
+
+"""
+Error code explaining reason for payout failure if available. See Types of payout failures for a list of failure codes.
+https://stripe.com/docs/api/payouts/failures
+"""
+enum PayoutFailureCode {
+  """
+  The bank account has been closed.
+  """
+  account_closed
+  """
+  The bank account has been frozen.
+  """
+  account_frozen
+  """
+  The bank account has restrictions on either the type, or the number, of payouts allowed. This normally indicates that the bank account is a savings or other non-checking account.
+  """
+  bank_account_restricted
+  """
+  The destination bank account is no longer valid because its branch has changed ownership.
+  """
+  bank_ownership_changed
+  """
+  The bank could not process this payout.
+  """
+  could_not_process
+  """
+  Debit transactions are not approved on the bank account. (Stripe requires bank accounts to be set up for both credit and debit payouts.)
+  """
+  debit_not_authorized
+  """
+  The bank has declined this transfer. Please contact the bank before retrying.
+  """
+  declined
+  """
+  Your Stripe account has insufficient funds to cover the payout.
+  """
+  insufficient_funds
+  """
+  The routing number seems correct, but the account number is invalid.
+  """
+  invalid_account_number
+  """
+  Your bank notified us that the bank account holder name on file is incorrect.
+  """
+  incorrect_account_holder_name
+  """
+  The bank was unable to process this payout because of its currency. This is probably because the bank account cannot accept payments in that currency.
+  """
+  invalid_currency
+  """
+  The bank account details on file are probably incorrect. No bank account could be located with those details.
+  """
+  no_account
+  """
+  The bank no longer supports payouts to this card.
+  """
+  unsupported_card
+}
+
+#
+
+input PayoutWhereUniqueInput {
+  id: ID!
+}
+
+input PayoutWhereInput {
+  """
+  A filter on the list based on the object arrival_date field. The value can be a string with an integer Unix timestamp, or it can be a dictionary with the following options:
+  """
+  arrivalDate: CreatedInput
+  """
+  A filter on the list based on the object created field. The value can be a string with an integer Unix timestamp, or it can be a dictionary
+  """
+  created: CreatedInput
+
+  """
+  The ID of an external account - only return payouts sent to this external account.
+  """
+  destination: String
+
+  """
+  A cursor for use in pagination. `ending_before` is an object ID that defines
+  your place in the list. For instance, if you make a list request and receive
+  100 objects, starting with `obj_bar`, your subsequent call can include
+  `ending_before=obj_bar` in order to fetch the previous page of the list.
+  """
+  endingBefore: ID
+
+  """
+  A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
+  """
+  limit: Int @constraint(max: 100)
+
+  """
+  A cursor for use in pagination. `starting_after` is an object ID that
+  defines your place in the list. For instance, if you make a list request and
+  receive 100 objects, ending with `obj_foo`, your subsequent call can include
+  `starting_after=obj_foo` in order to fetch the next page of the list.
+  """
+  startingAfter: ID
+
+  """
+  Only return payouts that have the given status: `pending`, `paid`, `failed`, or `canceled`.
+  """
+  status: PayoutStatusInput
+}
+
+enum PayoutStatusInput {
+  pending
+  paid
+  failed
+  canceled
+}
+
+input PayoutCreateInput {
+  """
+  A positive integer in cents representing how much to payout.
+  """
+  amount: Int!
+
+  """
+  Three-letter [ISO currency
+  code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be
+  a [supported currency](https://stripe.com/docs/currencies).
+  """
+  currency: String!
+
+  """
+  An arbitrary string attached to the object. Often useful for displaying to users.
+  """
+  description: String
+
+  """
+  The ID of a bank account or a card to send the payout to. If no destination is
+  supplied, the default external account for the specified currency will be used.
+  """
+  destination: String
+
+  """
+  A set of key-value pairs that you can attach to a payout object. It can be
+  useful for storing additional information about the payout in a structured format.
+  """
+  metadata: JSON
+
+  """
+  The method used to send this payout, which can be `standard` or `instant`.
+  `instant` is only supported for payouts to debit cards. (See [Instant payouts
+  for marketplaces for more
+  information](https://stripe.com/blog/instant-payouts-for-marketplaces).)
+  """
+  method: PayoutMethod
+
+  """
+  The source balance to draw this payout from. Balances for different payment
+  sources are kept separately. You can find the amounts with the balances API.
+  Valid options are: **alipay_account**, **bank_account**, and **card**.
+  """
+  sourceType: PayoutSourceType
+
+  """
+  A string to be displayed on the recipient's bank or card statement. This may
+  be at most 22 characters. Attempting to use a `statement_descriptor` longer
+  than 22 characters will return an error. Note: Most banks will truncate this
+  information and/or display it inconsistently. Some may not display it at all.
+  """
+  statementDescriptor: String
+}
+
+input PayoutUpdateInput {
+  """
+  A set of key-value pairs that you can attach to a payout object. It can be
+  useful for storing additional information about the payout in a structured format.
+  """
+  metadata: JSON
+}
+
+type PayoutList implements Object {
+  object: ObjectType
+  has_more: Boolean
+  url: String
+  data: [Payout]
+}
+
+type Query {
+  """
+  Retrieves the details of an existing payout. Supply the unique payout ID from either a payout creation request or the payout list, and Stripe will return the corresponding payout information.
+  """
+  retrievePayout(where: PayoutWhereUniqueInput!): Payout
+  """
+  Returns a list of existing payouts sent to third-party bank accounts or that Stripe has sent you. The payouts are returned in sorted order, with the most recently created payouts appearing first.
+  """
+  listPayouts(where: PayoutWhereInput): PayoutList
+}
+
+type Mutation {
+  """
+  To send funds to your own bank account, you create a new payout object. Your Stripe balance must be able to cover the payout amount, or you’ll receive an “Insufficient Funds” error.
+
+  If your API key is in test mode, money won’t actually be sent, though everything else will occur as if in live mode.
+
+  If you are creating a manual payout on a Stripe account that uses multiple payment source types, you’ll need to specify the source type balance that the payout should draw from. The balance object details available and pending amounts by source type.
+  """
+  createPayout(data: PayoutCreateInput!): Payout
+  """
+  Updates the specified payout by setting the values of the parameters passed. Any parameters not provided will be left unchanged. This request accepts only the metadata as arguments.
+  """
+  updatePayout(where: PayoutWhereUniqueInput!, data: PayoutUpdateInput!): Payout
+  """
+  A previously created payout can be canceled if it has not yet been paid out. Funds will be refunded to your available balance. You may not cancel automatic Stripe payouts.
+  """
+  cancelPayout(where: PayoutWhereUniqueInput!): Payout
+}

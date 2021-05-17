@@ -1,0 +1,41 @@
+type PackageDimensions {
+  """
+  Height, in inches.
+  """
+  height: Float
+  """
+  Length, in inches.
+  """
+  length: Float
+  """
+  Weight, in ounces.
+  """
+  weight: Float
+  """
+  Width, in inches.
+  """
+  width: Float
+}
+"""
+The dimensions of this product for shipping purposes. A SKU associated with this
+product can override this value by having its own `package_dimensions`. May only
+be set if type=`good`.
+"""
+input PackageDimensionsInput {
+  """
+  Height, in inches. Maximum precision is 2 decimal places.
+  """
+  height: Float!
+  """
+  Length, in inches. Maximum precision is 2 decimal places.
+  """
+  length: Float!
+  """
+  Weight, in ounces. Maximum precision is 2 decimal places.
+  """
+  weight: Float!
+  """
+  Weight, in ounces. Maximum precision is 2 decimal places.
+  """
+  width: Float!
+}
