@@ -1,2 +1,3 @@
-export * as productResolvers from './core/Products/resolvers'
-export * from './DataSource'
+export { StripeDataSource } from './dataSource'
+export { typeDefs } from './typeDefs'
+export { resolvers } from './resolvers'
