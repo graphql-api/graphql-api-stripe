@@ -32,8 +32,6 @@ const loadedTypeDefs = loadTypedefsSync(
   }
 )
 
-console.log(loadedTypeDefs)
-
 const typeDefs = mergeTypeDefs(loadedTypeDefs.map(({ rawSDL }) => rawSDL))
 
 export { typeDefs }
