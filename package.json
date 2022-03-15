@@ -1,11 +1,12 @@
 {
   "name": "@graphql-api/stripe",
+  "type": "commonjs",
   "version": "0.0.1",
   "peerDependencies": {
-    "graphql": "15.5.0",
+    "graphql": "15 || 16",
     "stripe-node": "6.0.0"
   },
   "devDependencies": {
-    "graphql-let": "^0.18.0-beta.2"
+    "graphql-let": "^0.18.6"
   }
 }
