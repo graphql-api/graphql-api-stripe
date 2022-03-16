@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "peerDependencies": {
     "graphql": "15 || 16",
-    "stripe-node": "6.0.0"
+    "stripe": "8.209.0"
   },
   "devDependencies": {
     "graphql-let": "^0.18.6"

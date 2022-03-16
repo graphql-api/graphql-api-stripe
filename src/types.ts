@@ -1,4 +1,4 @@
-import { StripeDataSource } from './dataSource'
+import { StripeDataSource } from './datasource'
 import { GraphQLResolverMap } from 'apollo-graphql'
 
 export type ResolverMap = GraphQLResolverMap<{
