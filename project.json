@@ -27,6 +27,12 @@
         "main": "packages/api/stripe/src/index.ts",
         "assets": ["packages/api/stripe/*.md"]
       }
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "preset": "conventional"
+      }
     }
   }
 }
