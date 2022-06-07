@@ -1,17 +1,21 @@
 {
-  "root": "packages/api/stripe",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/api/stripe/src",
   "projectType": "library",
   "targets": {
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "options": {
-        "lintFilePatterns": ["packages/api/stripe/**/*.ts"]
+        "lintFilePatterns": [
+          "packages/api/stripe/**/*.ts"
+        ]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/packages/api/stripe"],
+      "outputs": [
+        "coverage/packages/api/stripe"
+      ],
       "options": {
         "jestConfig": "packages/api/stripe/jest.config.js",
         "passWithNoTests": true
@@ -19,13 +23,17 @@
     },
     "build": {
       "executor": "@nrwl/js:tsc",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/packages/api/stripe",
         "tsConfig": "packages/api/stripe/tsconfig.lib.json",
         "packageJson": "packages/api/stripe/package.json",
         "main": "packages/api/stripe/src/index.ts",
-        "assets": ["packages/api/stripe/*.md"]
+        "assets": [
+          "packages/api/stripe/*.md"
+        ]
       }
     },
     "version": {
